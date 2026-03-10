@@ -5,6 +5,8 @@
 */
 
 (() => {
+  if (window.__ST4RT_SGT_BOOTED) return;
+  window.__ST4RT_SGT_BOOTED = true;
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReduced) return;
 

@@ -72,11 +72,11 @@
 /* Asegura que el rich text interno herede estilo del componente */
 .st4rt-sgt .st4rt-sgt__text,
 .st4rt-sgt .st4rt-sgt__text *{
-  font-family: inherit;
+  font-family: inherit !important;
   font-size: inherit;
   line-height: inherit;
   letter-spacing: inherit;
-  color: inherit;
+  color: inherit !important;
 }
 
 .st4rt-sgt .st4rt-sgt__text strong,
@@ -90,7 +90,7 @@
 }
 
 .st4rt-sgt .st4rt-sgt__text a{
-  color: inherit;
+  color: inherit !important;
   text-decoration-color: currentColor;
 }
 
