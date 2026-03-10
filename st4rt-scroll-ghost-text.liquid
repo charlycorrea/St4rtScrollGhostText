@@ -5,19 +5,31 @@
 
 {{ 'st4rt-scroll-ghost-text.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'st4rt-scroll-ghost-text.js' | asset_url }}" defer></script>
+<style>
+  {{ section.settings.font | font_face: font_display: 'swap' }}
+</style>
 
 {% comment %}
   Section wrapper + data settings
   Expone a JS los valores de escala/opacidad y distancia de transición.
 {% endcomment %}
+{% liquid
+  assign sgt_multiline_enabled = section.settings.multiline
+  if section.settings.text_layout == 'single'
+    assign sgt_multiline_enabled = false
+  elsif section.settings.text_layout == 'multiline'
+    assign sgt_multiline_enabled = true
+  endif
+%}
 <section
   id="shopify-section-{{ section.id }}"
-  class="st4rt-sgt"
+  class="st4rt-sgt{% if sgt_multiline_enabled %} st4rt-sgt--multiline{% endif %}"
   data-st4rt-sgt
   data-sgt-distance="{{ section.settings.reveal_distance }}"
   data-sgt-scale-from="{{ section.settings.scale_from }}"
   data-sgt-opacity-from="{{ section.settings.opacity_from }}"
   data-sgt-ease="{{ section.settings.ease }}"
+  data-sgt-multiline="{% if sgt_multiline_enabled %}true{% else %}false{% endif %}"
   style="
     --sgt-bg: {{ section.settings.bg_color }};
     --sgt-pad-y-m: {{ section.settings.pad_y_mobile }}px;
@@ -27,11 +39,14 @@
     --sgt-align: {{ section.settings.align }};
 
     --sgt-font: {{ section.settings.font.family }}, {{ section.settings.font.fallback_families }};
+    --sgt-font-weight: {{ section.settings.font.weight }};
+    --sgt-font-style: {{ section.settings.font.style }};
     --sgt-size-m: {{ section.settings.size_mobile }}px;
     --sgt-size-d: {{ section.settings.size_desktop }}px;
     --sgt-lh: {{ section.settings.line_height }};
     --sgt-ls: {{ section.settings.letter_spacing }}px;
     --sgt-color: {{ section.settings.text_color }};
+    --sgt-text-transform: {% if section.settings.uppercase %}uppercase{% else %}none{% endif %};
   "
 >
   {% comment %}
@@ -44,7 +59,7 @@
         data-sgt-text
         style="
         opacity: {{ section.settings.opacity_from | divided_by: 100.0 }};
-        transform: translateZ(0) scale({{ section.settings.scale_from | divided_by: 100.0 }});
+        transform: translateZ(0) scale({% if sgt_multiline_enabled %}1{% else %}{{ section.settings.scale_from | divided_by: 100.0 }}{% endif %});
         "
     >
   {{ section.settings.text }}
@@ -62,10 +77,33 @@
       "content": "Texto"
     },
     {
-        "type": "inline_richtext",
+        "type": "richtext",
         "id": "text",
-        "label": "Contenido (bold/italic/links en una línea)",
-        "default": "CONOZCA <strong>PODIUM</strong> SERIES"
+        "label": "Contenido",
+        "default": "<p>CONOZCA <strong>PODIUM</strong> SERIES</p>"
+    },
+    {
+      "type": "select",
+      "id": "text_layout",
+      "label": "Distribución del texto",
+      "default": "multiline",
+      "options": [
+        { "value": "single", "label": "Una sola línea" },
+        { "value": "multiline", "label": "Multi-línea" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "multiline",
+      "label": "Compatibilidad (legacy): permitir multi-línea",
+      "default": true,
+      "info": "Se usa como fallback si no se configura 'Distribución del texto'."
+    },
+    {
+      "type": "checkbox",
+      "id": "uppercase",
+      "label": "Transformar texto a MAYÚSCULAS",
+      "default": true
     },
 
     {
