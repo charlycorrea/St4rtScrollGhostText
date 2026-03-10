@@ -14,3 +14,5 @@ Esta carpeta contiene los archivos finales listos para subir/actualizar en tu re
    - `assets/st4rt-scroll-ghost-text.js`
    - `sections/st4rt-scroll-ghost-text.liquid`
 3. Publica y valida en Theme Editor (`load/reorder/select`) y en móvil.
+
+> Nota: `st4rt-scroll-ghost-text.liquid` es un archivo de **sección** y debe guardarse en `sections/`. No pegar su contenido dentro de `layout/theme.liquid`.
