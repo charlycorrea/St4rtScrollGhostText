@@ -1,0 +1,220 @@
+{% comment %}
+  ST4RT Scroll Ghost Text
+  Texto único que pasa de "fantasma" (grande e invisible) a sólido (100% y visible) al llegar la sección al top del viewport.
+{% endcomment %}
+
+{{ 'st4rt-scroll-ghost-text.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'st4rt-scroll-ghost-text.js' | asset_url }}" defer></script>
+
+{% comment %}
+  Section wrapper + data settings
+  Expone a JS los valores de escala/opacidad y distancia de transición.
+{% endcomment %}
+<section
+  id="shopify-section-{{ section.id }}"
+  class="st4rt-sgt"
+  data-st4rt-sgt
+  data-sgt-distance="{{ section.settings.reveal_distance }}"
+  data-sgt-scale-from="{{ section.settings.scale_from }}"
+  data-sgt-opacity-from="{{ section.settings.opacity_from }}"
+  data-sgt-ease="{{ section.settings.ease }}"
+  style="
+    --sgt-bg: {{ section.settings.bg_color }};
+    --sgt-pad-y-m: {{ section.settings.pad_y_mobile }}px;
+    --sgt-pad-y-d: {{ section.settings.pad_y_desktop }}px;
+
+    --sgt-max-w: {{ section.settings.max_width }}px;
+    --sgt-align: {{ section.settings.align }};
+
+    --sgt-font: {{ section.settings.font.family }}, {{ section.settings.font.fallback_families }};
+    --sgt-size-m: {{ section.settings.size_mobile }}px;
+    --sgt-size-d: {{ section.settings.size_desktop }}px;
+    --sgt-lh: {{ section.settings.line_height }};
+    --sgt-ls: {{ section.settings.letter_spacing }}px;
+    --sgt-color: {{ section.settings.text_color }};
+  "
+>
+  {% comment %}
+    Content container
+    Mantiene el texto centrado y limita el ancho.
+  {% endcomment %}
+  <div class="st4rt-sgt__inner">
+    <div
+        class="st4rt-sgt__text"
+        data-sgt-text
+        style="
+        opacity: {{ section.settings.opacity_from | divided_by: 100.0 }};
+        transform: translateZ(0) scale({{ section.settings.scale_from | divided_by: 100.0 }});
+        "
+    >
+  {{ section.settings.text }}
+</div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "ST4RT Scroll Ghost Text",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Texto"
+    },
+    {
+        "type": "inline_richtext",
+        "id": "text",
+        "label": "Contenido (bold/italic/links en una línea)",
+        "default": "CONOZCA <strong>PODIUM</strong> SERIES"
+    },
+
+    {
+      "type": "header",
+      "content": "Estilo"
+    },
+    {
+      "type": "font_picker",
+      "id": "font",
+      "label": "Fuente",
+      "default": "inter_n4"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Color de texto",
+      "default": "#F2F2F2"
+    },
+    {
+      "type": "select",
+      "id": "align",
+      "label": "Alineación",
+      "default": "center",
+      "options": [
+        { "value": "left", "label": "Izquierda" },
+        { "value": "center", "label": "Centro" },
+        { "value": "right", "label": "Derecha" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Ancho máximo (px)",
+      "min": 320,
+      "max": 1600,
+      "step": 20,
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "size_desktop",
+      "label": "Tamaño desktop (px)",
+      "min": 20,
+      "max": 120,
+      "step": 1,
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "size_mobile",
+      "label": "Tamaño mobile (px)",
+      "min": 16,
+      "max": 72,
+      "step": 1,
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "line_height",
+      "label": "Line height",
+      "min": 0.9,
+      "max": 1.4,
+      "step": 0.1,
+      "default": 1.1
+    },
+    {
+      "type": "range",
+      "id": "letter_spacing",
+      "label": "Letter spacing (px)",
+      "min": -2,
+      "max": 12,
+      "step": 1,
+      "default": 2
+    },
+
+    {
+      "type": "header",
+      "content": "Fondo y espaciado"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Color de fondo",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "range",
+      "id": "pad_y_desktop",
+      "label": "Padding vertical desktop (px)",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "pad_y_mobile",
+      "label": "Padding vertical mobile (px)",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "default": 24
+    },
+
+    {
+      "type": "header",
+      "content": "Efecto con scroll"
+    },
+    {
+      "type": "range",
+      "id": "reveal_distance",
+      "label": "Distancia para transición (px)",
+      "min": 100,
+      "max": 1200,
+      "step": 20,
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "scale_from",
+      "label": "Scale inicial (%)",
+      "min": 100,
+      "max": 800,
+      "step": 10,
+      "default": 320
+    },
+    {
+      "type": "range",
+      "id": "opacity_from",
+      "label": "Opacidad inicial (%)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "ease",
+      "label": "Suavizado",
+      "default": "easeOut",
+      "options": [
+        { "value": "linear", "label": "Linear" },
+        { "value": "easeOut", "label": "Ease Out" },
+        { "value": "easeInOut", "label": "Ease In Out" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "ST4RT Scroll Ghost Text" }
+  ]
+}
+{% endschema %}

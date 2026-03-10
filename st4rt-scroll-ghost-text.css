@@ -1,0 +1,45 @@
+/* ST4RT Scroll Ghost Text
+   Layout del texto y estilos base. El JS controla transform/opacity por scroll.
+*/
+
+.st4rt-sgt{
+  background: var(--sgt-bg);
+}
+
+.st4rt-sgt__inner{ overflow: hidden; }
+.st4rt-sgt__text{ text-overflow: ellipsis; overflow: hidden; }
+
+.st4rt-sgt__inner{
+  max-width: var(--sgt-max-w);
+  margin: 0 auto;
+  padding: var(--sgt-pad-y-m) 16px;
+  text-align: var(--sgt-align);
+}
+
+/* Nodo animado */
+.st4rt-sgt__text{
+  font-family: var(--sgt-font);
+  font-size: var(--sgt-size-m);
+  line-height: var(--sgt-lh);
+  letter-spacing: var(--sgt-ls);
+  color: var(--sgt-color);
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+/* Ajuste de richtext para que no meta márgenes raros */
+.st4rt-sgt__text{
+    font-size: var(--sgt-size-d);
+  }
+
+@media (min-width: 990px){
+  .st4rt-sgt__inner{
+    padding: var(--sgt-pad-y-d) 24px;
+  }
+  .st4rt-sgt__text{
+    font-size: var(--sgt-size-d);
+  }
+}
