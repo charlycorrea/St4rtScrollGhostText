@@ -1,0 +1,105 @@
+/* ST4RT Scroll Ghost Text
+   Layout del texto y estilos base. El JS controla transform/opacity por scroll.
+*/
+
+.st4rt-sgt{
+  background: var(--sgt-bg);
+}
+
+.st4rt-sgt__inner{
+  overflow: hidden;
+  max-width: var(--sgt-max-w);
+  margin: 0 auto;
+  padding: var(--sgt-pad-y-m) 16px;
+  text-align: var(--sgt-align);
+}
+
+/* Nodo animado */
+.st4rt-sgt__text{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  font-family: var(--sgt-font);
+  font-size: var(--sgt-size-m);
+  font-weight: var(--sgt-font-weight);
+  font-style: var(--sgt-font-style);
+  line-height: var(--sgt-lh);
+  letter-spacing: var(--sgt-ls);
+  color: var(--sgt-color);
+  text-transform: var(--sgt-text-transform);
+
+  transform-origin: center;
+}
+
+/* Single-line: normaliza rich text a flujo inline para que ellipsis funcione bien */
+.st4rt-sgt:not(.st4rt-sgt--multiline) .st4rt-sgt__text > *{
+  display: inline;
+  margin: 0;
+}
+
+/* Modo multi-línea */
+.st4rt-sgt--multiline .st4rt-sgt__inner,
+.st4rt-sgt--multiline .st4rt-sgt__text{
+  overflow: visible;
+}
+
+.st4rt-sgt--multiline .st4rt-sgt__text{
+  text-overflow: clip;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+/* Ritmo vertical y formatos comunes de rich text en multi-línea */
+.st4rt-sgt--multiline .st4rt-sgt__text > *{
+  margin: 0;
+}
+
+.st4rt-sgt--multiline .st4rt-sgt__text > * + *{
+  margin-top: 0.35em;
+}
+
+.st4rt-sgt--multiline .st4rt-sgt__text ul,
+.st4rt-sgt--multiline .st4rt-sgt__text ol{
+  padding-inline-start: 1.2em;
+}
+
+.st4rt-sgt--multiline .st4rt-sgt__text li{
+  margin: 0;
+}
+
+/* Asegura que el rich text interno herede estilo del componente */
+.st4rt-sgt .st4rt-sgt__text,
+.st4rt-sgt .st4rt-sgt__text *{
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+}
+
+.st4rt-sgt .st4rt-sgt__text strong,
+.st4rt-sgt .st4rt-sgt__text b{
+  font-weight: bolder;
+}
+
+.st4rt-sgt .st4rt-sgt__text em,
+.st4rt-sgt .st4rt-sgt__text i{
+  font-style: italic;
+}
+
+.st4rt-sgt .st4rt-sgt__text a{
+  color: inherit;
+  text-decoration-color: currentColor;
+}
+
+@media (min-width: 990px){
+  .st4rt-sgt__inner{
+    padding: var(--sgt-pad-y-d) 24px;
+  }
+
+  .st4rt-sgt__text{
+    font-size: var(--sgt-size-d);
+  }
+}
